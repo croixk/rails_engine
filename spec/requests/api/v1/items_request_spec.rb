@@ -8,6 +8,9 @@ describe "Items API" do
     expect(response).to be_successful
 
     items = JSON.parse(response.body)
+    expect(items['data'].count).to eq(3)
+    # expect(items['data'].first[:id]).to be_a(String)
+    # expect(items['data'].first[:attributes]).to have_key(:id)
   end
 
   it 'can get one item by its id' do
@@ -16,18 +19,22 @@ describe "Items API" do
 
     item = JSON.parse(response.body, symbolize_names: true)
 
+    # binding.pry
     expect(response).to be_successful
-
-    expect(item).to have_key(:name)
-    expect(item[:name]).to be_a(String)
+    expect(item[:data][:attributes]).to have_key(:name)
+    expect(item[:data][:attributes][:name]).to be_a(String)
+    expect(item[:data]).to have_key(:id)
+    expect(item[:data][:id]).to be_a(String)
   end
 
   it 'can create a new item' do
+    merchant = Merchant.create!(name: 'Merchant_1')
+
     item_params = ({
       "name": "value1",
       "description": "value2",
       "unit_price": 100.99,
-      "merchant_id": 14
+      "merchant_id": merchant.id
       })
 
     headers = {"CONTENT_TYPE" => "application/json"}
@@ -36,7 +43,6 @@ describe "Items API" do
     created_item = Item.last
 
     expect(response).to be_successful
-    binding.pry
     expect(created_item.name).to eq(item_params[:name])
     expect(created_item.description).to eq(item_params[:description])
     expect(created_item.unit_price).to eq(item_params[:unit_price])
