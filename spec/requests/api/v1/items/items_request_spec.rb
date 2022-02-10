@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe "Items API" do
+RSpec.describe "Items API" do
   it "sends a list of items" do
     create_list(:item, 3)
 
@@ -73,5 +73,14 @@ describe "Items API" do
     expect(response).to be_successful
     expect(Item.count).to eq(0)
     expect{Item.find(item.id).to raise_error(ActiveRecord::RecordNotFound)}
+  end
+
+  it 'can find a merchant for an item' do
+    item = create(:item)
+    get "/api/v1/items/#{item.id}/merchants"
+    expect(response).to be_successful
+
+    merchant = JSON.parse(response.body, symbolize_names: true)
+
   end
 end
