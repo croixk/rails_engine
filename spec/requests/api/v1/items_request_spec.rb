@@ -18,7 +18,6 @@ describe "Items API" do
     get "/api/v1/items/#{id}"
 
     item = JSON.parse(response.body, symbolize_names: true)
-
     # binding.pry
     expect(response).to be_successful
     expect(item[:data][:attributes]).to have_key(:name)
