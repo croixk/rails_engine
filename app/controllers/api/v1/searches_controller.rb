@@ -9,6 +9,8 @@ class Api::V1::SearchesController < ApplicationController
     end
   end
 
+
+
   def find
     # merchant = Merchant.where(name: params[:name]).first
     merchant = Merchant.where('name ILIKE ?', "%#{params[:name]}%").first
