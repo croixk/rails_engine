@@ -43,7 +43,7 @@ RSpec.describe "Merchant search API - return one merchant" do
   end
 
   describe 'sad path' do
-    it "returns no merchants - error message" do
+    it "returns no merchants - terms don't match merchants" do
       merchant_1 = Merchant.create!(name: 'merchant_1')
       merchant_2 = Merchant.create!(name: 'merchant_2')
       merchant_3 = Merchant.create!(name: 'merchant_3')
@@ -52,7 +52,7 @@ RSpec.describe "Merchant search API - return one merchant" do
 
       merchant = JSON.parse(response.body, symbolize_names: true)
 
-      expect(response).to be_successful
+      expect(response).to_not be_successful
 
       expect(merchant.count).to eq(1)
 
@@ -61,6 +61,23 @@ RSpec.describe "Merchant search API - return one merchant" do
       expect(merchant[:data]).to have_key(:attributes)
       expect(merchant[:data][:attributes]).to have_key(:name)
       expect(merchant[:data][:attributes][:name]).to be_a(String)
+    end
+
+    it "returns no merchants - no merchants available" do
+
+      get '/api/v1/merchants/find?name='
+
+      merchant = JSON.parse(response.body, symbolize_names: true)
+
+      expect(response).to_not be_successful
+
+      # expect(merchant.count).to eq(1)
+      #
+      # expect(merchant[:data]).to have_key(:id)
+      # expect(merchant[:data]).to have_key(:type)
+      # expect(merchant[:data]).to have_key(:attributes)
+      # expect(merchant[:data][:attributes]).to have_key(:name)
+      # expect(merchant[:data][:attributes][:name]).to be_a(String)
     end
   end
 

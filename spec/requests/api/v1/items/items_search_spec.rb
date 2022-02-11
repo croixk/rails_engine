@@ -54,6 +54,16 @@ RSpec.describe "Item search API - all matching items" do
   end
 
   describe 'sad path' do
+    it "searches for items - items is nil" do
+      merchant_1 = Merchant.create!(name: 'Merchant_1')
+
+      get '/api/v1/items/find_all?name=q'
+
+      items = JSON.parse(response.body, symbolize_names: true)
+
+      expect(response).to be_successful
+      expect(items[:data].count).to eq(0)
+    end
     it "searches for items - returns no items" do
       merchant_1 = Merchant.create!(name: 'Merchant_1')
 
