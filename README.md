@@ -1,24 +1,41 @@
-# README
+# Rails Engine
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Background and Description 
+Rails Engine is the backend for a fictitious E-Commerce application. The project is modeled after a service-oriented architecture, as a separate backend that provides information to the front end via APIs. 
 
-Things you may want to cover:
 
-* Ruby version
+## Requirements and Setup
+### Ruby/Rails 
+- Ruby 2.7.2
+- Rails 5.2.6
 
-* System dependencies
+### Setup 
+1. Clone this repo. On your local machine, open the terminal and enter the following command:
 
-* Configuration
+```
+$ git clone git@github.com:croixk/rails_engine.git
+```
 
-* Database creation
+2. You can now enter the project directory ```$ cd rails_engine```
 
-* Database initialization
+3. Now, install the required gems using ```$ bundle install```
 
-* How to run the test suite
+4. Run database migrations with ```$ rails rake db:{drop,create,migrate,seed}```
 
-* Services (job queues, cache servers, search engines, etc.)
+5. Before consuming the APIs, you will need to start the local server ```$ rails s```
 
-* Deployment instructions
+## Endpoints 
+This project exposes the following endpoints for a front end team
 
-* ...
+### Merchants
+- get all merchants - ```GET /api/v1/merchants```
+- get one merchant - ```GET /api/v1/merchants/:merchant_id```
+- get all items for a given merchant ID - ```GET /api/v1/merchants/:merchant_id/items```
+
+### Items
+- get all items - ```GET /api/v1/items```
+- get one item - ```GET /api/v1/items/:item_id```
+- create an item - ```POST /api/v1/items```
+- edit an item - ```PATCH /api/v1/items```
+- delete an item - ```DELETE /api/v1/items/:item_id```
+- get the merchant data for a given item ID - ```GET /api/v1/items/:item_id/merchant```
